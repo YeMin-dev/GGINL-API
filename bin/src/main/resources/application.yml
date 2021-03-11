@@ -1,0 +1,59 @@
+spring:
+  datasource:
+    url: jdbc:sqlserver://localhost;databaseName=ggli
+    username: sa
+    password: admin
+    driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
+  jackson:
+    date-format: dd.MM.yyyy
+
+  tomcat:
+    max-wait: 20000
+    max-active: 50
+    max-idle: 20
+    min-idle: 15
+  jpa:
+    show-sql: true
+    properties:
+      hibernate: dialect:org.hibernate.dialect.SQLServer2012Dialect
+  
+server:
+   port: ${PORT:8081} # This is the default port anyway, but you can change it here
+   
+farmerProductId: ISPRD003001000009376125072017
+studentLifeProductId: ISPRD003000009607306082019
+publicTermLifeProductId: ISPRD003000009609324022020
+singlePremiumCreditLifeProductId: ISPRD003000009610317062020
+shortTermSinglePremiumCreditLifeProductId: ISPRD003000009610322062020
+singlePremiumEndowmentLifeProductId: ISPRD003000009612311032020
+
+
+fileDir: D
+
+
+
+security:
+  jwt:
+    token:
+      secret-key: secret-key
+      expire-length: 300000 # 5 minutes duration by default: 5 minutes * 60 seconds * 1000 miliseconds
+
+UserController:
+  signin: Authenticates user and returns its JWT token.
+  signup: Creates user and returns its JWT token
+  delete: Deletes specific user by username
+  search: Returns specific user by username
+  me: Returns current user's data
+  submitProposal: Create proposal and return policy no
+GroupFarmerController:
+  submitproposal: Create Group farmer Proposal and return policy no
+StudentLifeController:
+  submitProposal: Create Student Life proposal and return policy no
+BillCollectionController:
+  payment: Create Subsequent Payment
+SinglePremiumCreditLifeController:
+  submitProposal: Create Single Premium Credit Life proposal and return policy no
+SinglePremiumEndowmentLifeController:
+  submitProposal: Create Single Premium Endowment Life proposal and return policy no
+ShortTermSinglePremiumCreditLifeController:
+  submitProposal: Create Short Term Single Premium Credit Life proposal and return policy no
