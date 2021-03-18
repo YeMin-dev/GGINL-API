@@ -36,7 +36,10 @@ import org.tat.gginl.api.common.emumdata.ClassificationOfHealth;
 import org.tat.gginl.api.common.emumdata.EndorsementStatus;
 import org.tat.gginl.api.common.emumdata.Gender;
 import org.tat.gginl.api.common.emumdata.IdType;
+import org.tat.gginl.api.common.emumdata.PeriodType;
 import org.tat.gginl.api.common.emumdata.SumInsuredType;
+import org.tat.gginl.api.common.emumdata.SurveyAnswerOne;
+import org.tat.gginl.api.common.emumdata.SurveyAnswerTwo;
 import org.tat.gginl.api.domains.Attachment;
 import org.tat.gginl.api.domains.Customer;
 import org.tat.gginl.api.domains.GradeInfo;
@@ -96,6 +99,11 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 	private IdType parentIdType;
 	private Date parentDOB;
 	private int unit;
+	private int weight;
+	private int height;
+	private double bmi;
+	private SurveyAnswerOne surveyquestionOne;
+	private SurveyAnswerTwo surveyquestionTwo;
 
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
@@ -120,6 +128,9 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 
 	@Enumerated(value = EnumType.STRING)
 	private ClassificationOfHealth clsOfHealth;
+	
+	@Enumerated(value = EnumType.STRING)
+	private PeriodType periodType;
 
 	@Embedded
 	private ResidentAddress residentAddress;
@@ -204,6 +215,7 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 		this.dateOfBirth = insuredPerson.getDateOfBirth();
 		this.recorder = insuredPerson.getRecorder();
 		this.clsOfHealth = insuredPerson.getClsOfHealth();
+		this.periodType = insuredPerson.getPeriodType();
 		this.sumInsured = insuredPerson.getProposedSumInsured();
 		this.periodMonth = insuredPerson.getPeriodMonth();
 		this.startDate = insuredPerson.getStartDate();
@@ -241,6 +253,11 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 		this.bpmsInsuredPersonId = insuredPerson.getBpmsInsuredPersonId();
 		this.newCustomer = insuredPerson.isNewCustomer();
 		this.sumInsuredType = insuredPerson.getSumInsuredType();
+		this.weight = insuredPerson.getWeight();
+		this.height = insuredPerson.getHeight();
+		this.bmi = insuredPerson.getBmi();
+		this.surveyquestionOne = insuredPerson.getSurveyquestionOne();
+		this.surveyquestionTwo = insuredPerson.getSurveyquestionTwo();
 		for (InsuredPersonAttachment attachment : insuredPerson.getAttachmentList()) {
 			addAttachment(new PolicyInsuredPersonAttachment(attachment));
 		}
@@ -293,6 +310,9 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 		this.school = history.getSchool();
 		this.gradeInfo = history.getGradeInfo();
 		this.sumInsuredType =  history.getSumInsuredType();
+		this.weight = history.getWeight();
+		this.height = history.getHeight();
+		this.bmi = history.getBmi();
 		for (PolicyInsuredPersonAttachmentHistory attachment : history.getAttachmentList()) {
 			addAttachment(new PolicyInsuredPersonAttachment(attachment));
 		}
@@ -347,6 +367,9 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 		this.school = dto.getSchool();
 		this.gradeInfo = dto.getGradeInfo();
 		this.sumInsuredType = dto.getSumInsuredType();
+		this.weight = dto.getWeight();
+		this.height = dto.getHeight();
+		this.bmi = dto.getBmi();
 		for (PolicyInsuredPersonAttachment attach : dto.getPrePolicyAttachmentList()) {
 			addAttachment(attach);
 		}
@@ -465,6 +488,46 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 
 	public void setPeriodMonth(int periodMonth) {
 		this.periodMonth = periodMonth;
+	}
+	
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public double getBmi() {
+		return bmi;
+	}
+
+	public void setBmi(double bmi) {
+		this.bmi = bmi;
+	}
+	
+	public SurveyAnswerOne getSurveyquestionOne() {
+		return surveyquestionOne;
+	}
+
+	public void setSurveyquestionOne(SurveyAnswerOne surveyquestionOne) {
+		this.surveyquestionOne = surveyquestionOne;
+	}
+
+	public SurveyAnswerTwo getSurveyquestionTwo() {
+		return surveyquestionTwo;
+	}
+
+	public void setSurveyquestionTwo(SurveyAnswerTwo surveyquestionTwo) {
+		this.surveyquestionTwo = surveyquestionTwo;
 	}
 
 	public Date getStartDate() {
@@ -599,6 +662,14 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	public PeriodType getPeriodType() {
+		return periodType;
+	}
+
+	public void setPeriodType(PeriodType periodType) {
+		this.periodType = periodType;
 	}
 
 	public LifePolicy getLifePolicy() {
@@ -1095,6 +1166,8 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 		temp = Double.doubleToLongBits(sumInsured);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + unit;
+		result = prime * result + weight;
+		result = prime * result + height;
 		result = prime * result + version;
 		return result;
 	}
@@ -1199,6 +1272,10 @@ public class PolicyInsuredPerson implements IInsuredItem, Serializable {
 		if (Double.doubleToLongBits(sumInsured) != Double.doubleToLongBits(other.sumInsured))
 			return false;
 		if (unit != other.unit)
+			return false;
+		if (weight != other.weight)
+			return false;
+		if (height != other.height)
 			return false;
 		if (version != other.version)
 			return false;

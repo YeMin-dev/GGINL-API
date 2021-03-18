@@ -1,69 +1,40 @@
 package org.tat.gginl.api.common;
-	import java.io.Serializable;
 
+import java.io.Serializable;
+
+import io.swagger.annotations.ApiModelProperty;
+import lombok.Builder;
 import lombok.Data;
 
+@Data
+@Builder
+public class ContentInfoDto implements Serializable {
+	private static final long serialVersionUID = 1L;
+
+	@ApiModelProperty(position = 0, required = false)
+	private String phone;
+
+	@ApiModelProperty(position = 1, required = false)
+	private String fax;
+
+	@ApiModelProperty(position = 2, required = false)
+	private String mobile;
+
+	@ApiModelProperty(position = 3, required = false)
+	private String email;
 	
-	@Data
-	public class ContentInfoDto implements Serializable {
-		private static final long serialVersionUID = 1L;
-
-		private String phone;
-
-		private String fax;
-
-		private String mobile;
-
-		private String email;
-
-		public ContentInfoDto() {
-		}
-
-		public String getPhone() {
-			return this.phone;
-		}
-
-		public void setPhone(String phone) {
-			this.phone = phone;
-		}
-
-		public String getFax() {
-			return this.fax;
-		}
-
-		public void setFax(String fax) {
-			this.fax = fax;
-		}
-
-		public String getMobile() {
-			return this.mobile;
-		}
-
-		public void setMobile(String mobile) {
-			this.mobile = mobile;
-		}
-
-		public String getEmail() {
-			return this.email;
-		}
-
-		public void setEmail(String email) {
-			this.email = email;
-		}
-		
-		public String getPhoneOrMoblieNo() {
-			if (phone == null && mobile == null) {
+	public String getPhoneOrMoblieNo() {
+		if (phone == null && mobile == null) {
+			return "-";
+		} else {
+			if (phone.isEmpty() && phone == "") {
+				if (mobile != null) {
+					return mobile;
+				}
 				return "-";
-			} else {
-				if (phone.isEmpty() && phone == "") {
-					if (mobile != null) {
-						return mobile;
-					}
-					return "-";
-				} else
-					return phone;
-			}
+			} else
+				return phone;
 		}
-
-		
+	}
+	
 }

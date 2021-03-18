@@ -1,4 +1,4 @@
-package org.tat.gginl.api.dto.sampleLifeDTO;
+package org.tat.gginl.api.dto.simpleLifeDTO;
 
 
 
@@ -7,7 +7,7 @@ import lombok.Data;
 
 @Data
 @Builder
-public class SampleLifeReponseDTO {
+public class SimpleLifeReponseDTO {
 
   private String bpmsInsuredPersonId;
   private String policyNo;

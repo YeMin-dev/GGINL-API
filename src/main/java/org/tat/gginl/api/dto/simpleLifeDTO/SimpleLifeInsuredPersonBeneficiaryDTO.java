@@ -1,16 +1,22 @@
-package org.tat.gginl.api.dto.sampleLifeDTO;
+package org.tat.gginl.api.dto.simpleLifeDTO;
 
 import java.util.Date;
+
+import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+
+import org.tat.gginl.api.common.ContentInfoDto;
 import org.tat.gginl.api.configuration.DateHandler;
+
 import com.fasterxml.jackson.databind.annotation.JsonDeserialize;
+
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 @Data
-public class SampleLifeInsuredPersonBeneficiaryDTO {
+public class SimpleLifeInsuredPersonBeneficiaryDTO {
 
   @ApiModelProperty(position = 0, example = "U", required = true)
   @NotBlank(message = "InitialId is mandatory")
@@ -40,23 +46,27 @@ public class SampleLifeInsuredPersonBeneficiaryDTO {
   @NotBlank(message = "residentAddress is mandatory")
   private String residentAddress;
 
-  @ApiModelProperty(position = 11, example = "ISSYS004002000000127620082014", required = true)
+  @ApiModelProperty(position = 7, example = "ISSYS004002000000127620082014", required = true)
   @NotBlank(message = "townshipId is mandatory")
   @NotEmpty
   private String townshipId;
 
-  @ApiModelProperty(position = 7, example = "Aung", required = true)
+  @ApiModelProperty(position = 8, example = "Aung", required = true)
   @NotBlank(message = "firstName is mandatory")
   private String firstName;
 
-  @ApiModelProperty(position = 8, example = "Aung", required = true)
+  @ApiModelProperty(position = 9, example = "Aung", required = true)
   private String middleName;
 
-  @ApiModelProperty(position = 9, example = "Aung", required = true)
+  @ApiModelProperty(position = 10, example = "Aung", required = true)
   private String lastName;
 
-  @ApiModelProperty(position = 10, example = "ISSYS0120001000000000129032013", required = true)
+  @ApiModelProperty(position = 11, example = "ISSYS0120001000000000129032013", required = true)
   @NotBlank(message = "relationshipID is mandatory")
   private String relationshipID;
+  
+  @Valid
+  @ApiModelProperty(position = 12)
+  private ContentInfoDto contactInfo;
 
 }

@@ -14,7 +14,10 @@ import org.tat.gginl.api.common.emumdata.ClassificationOfHealth;
 import org.tat.gginl.api.common.emumdata.EndorsementStatus;
 import org.tat.gginl.api.common.emumdata.Gender;
 import org.tat.gginl.api.common.emumdata.IdType;
+import org.tat.gginl.api.common.emumdata.PeriodType;
 import org.tat.gginl.api.common.emumdata.SumInsuredType;
+import org.tat.gginl.api.common.emumdata.SurveyAnswerOne;
+import org.tat.gginl.api.common.emumdata.SurveyAnswerTwo;
 import org.tat.gginl.api.domains.Attachment;
 import org.tat.gginl.api.domains.Customer;
 import org.tat.gginl.api.domains.GradeInfo;
@@ -42,6 +45,7 @@ public class InsuredPersonInfoDTO {
 	private int paymentTerm;
 	private int periodOfYears;
 	private int age;
+	private PeriodType periodType;
 	private double premium;
 	private double approvedSumInsured;
 	private double approvedPremium;
@@ -65,6 +69,8 @@ public class InsuredPersonInfoDTO {
 	private String provinceCode;
 	private String townshipCode;
 	private String idConditionType;
+	private SurveyAnswerOne surveyquestionOne;
+	private SurveyAnswerTwo surveyquestionTwo;
 
 	private String parentFullIdNo;
 	private String parentIdNo;
@@ -104,6 +110,10 @@ public class InsuredPersonInfoDTO {
 	private List<PolicyInsuredPersonKeyFactorValue> policyKeyFactorValueList;
 	private SumInsuredType sumInsuredType;
 	private int unit;
+	
+	private int weight;
+	private double bmi;
+	private int height;
 
 	private int version;
 
@@ -136,6 +146,7 @@ public class InsuredPersonInfoDTO {
 		this.needMedicalCheckup = proposal.isNeedMedicalCheckup();
 		this.paymentTerm = proposal.getPaymentTerm();
 		this.periodMonth = proposal.getPeriodMonth();
+		this.periodType = proposal.getPeriodType();
 		if (KeyFactorChecker.isGroupLife(proposal.getProduct()) || KeyFactorChecker.isPublicLife(proposal.getProduct())
 				|| KeyFactorChecker.isShortTermEndowment(proposal.getProduct().getId()) || KeyFactorChecker.isStudentLife(proposal.getProduct().getId())) {
 			this.periodOfYears = proposal.getPeriodMonth() / 12;
@@ -143,6 +154,11 @@ public class InsuredPersonInfoDTO {
 			this.periodOfYears = proposal.getPeriodMonth();
 		}
 		this.age = proposal.getAge();
+		this.weight = proposal.getWeight();
+		this.height = proposal.getHeight();
+		this.bmi = proposal.getBmi();
+		this.surveyquestionOne = proposal.getSurveyquestionOne();
+		this.surveyquestionTwo = proposal.getSurveyquestionTwo();
 		this.sumInsuredInfo = proposal.getProposedSumInsured();
 		this.premium = proposal.getProposedPremium();
 		this.approvedSumInsured = proposal.getApprovedSumInsured();
@@ -225,8 +241,14 @@ public class InsuredPersonInfoDTO {
 		} else {
 			this.periodOfYears = pi.getPeriodMonth();
 		}
+		this.periodType = pi.getPeriodType();
 		this.paymentTerm = pi.getPaymentTerm();
 		this.age = pi.getAge();
+		this.weight = pi.getWeight();
+		this.height = pi.getHeight();
+		this.bmi = pi.getBmi();
+		this.surveyquestionOne = pi.getSurveyquestionOne();
+		this.surveyquestionTwo = pi.getSurveyquestionTwo();
 		this.sumInsuredInfo = pi.getSumInsured();
 		this.premium = pi.getPremium();
 		this.basicTermPremium = pi.getBasicTermPremium();
@@ -296,6 +318,7 @@ public class InsuredPersonInfoDTO {
 		this.needMedicalCheckup = insuredPersonInfoDTO.isNeedMedicalCheckup();
 		this.paymentTerm = insuredPersonInfoDTO.getPaymentTerm();
 		this.periodMonth = insuredPersonInfoDTO.getPeriodMonth();
+		this.periodType = insuredPersonInfoDTO.getPeriodType();
 		if (KeyFactorChecker.isGroupLife(insuredPersonInfoDTO.getProduct()) || KeyFactorChecker.isPublicLife(insuredPersonInfoDTO.getProduct())
 				|| KeyFactorChecker.isShortTermEndowment(insuredPersonInfoDTO.getProduct().getId())) {
 			this.periodOfYears = insuredPersonInfoDTO.getPeriodMonth() / 12;
@@ -303,6 +326,11 @@ public class InsuredPersonInfoDTO {
 			this.periodOfYears = insuredPersonInfoDTO.getPeriodMonth();
 		}
 		this.age = insuredPersonInfoDTO.getAge();
+		this.weight = insuredPersonInfoDTO.getWeight();
+		this.height = insuredPersonInfoDTO.getHeight();
+		this.bmi = insuredPersonInfoDTO.getBmi();
+		this.surveyquestionOne = insuredPersonInfoDTO.getSurveyquestionOne();
+		this.surveyquestionTwo = insuredPersonInfoDTO.getSurveyquestionTwo();
 		this.approvedSumInsured = insuredPersonInfoDTO.getApprovedSumInsured();
 		this.approvedPremium = insuredPersonInfoDTO.getApprovedPremium();
 		this.approve = insuredPersonInfoDTO.isApprove();
@@ -443,6 +471,14 @@ public class InsuredPersonInfoDTO {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public PeriodType getPeriodType() {
+		return periodType;
+	}
+
+	public void setPeriodType(PeriodType periodType) {
+		this.periodType = periodType;
+	}
 
 	public Product getProduct() {
 		return product;
@@ -582,6 +618,22 @@ public class InsuredPersonInfoDTO {
 
 	public void setVersion(int version) {
 		this.version = version;
+	}
+	
+	public SurveyAnswerOne getSurveyquestionOne() {
+		return surveyquestionOne;
+	}
+
+	public void setSurveyquestionOne(SurveyAnswerOne surveyquestionOne) {
+		this.surveyquestionOne = surveyquestionOne;
+	}
+
+	public SurveyAnswerTwo getSurveyquestionTwo() {
+		return surveyquestionTwo;
+	}
+
+	public void setSurveyquestionTwo(SurveyAnswerTwo surveyquestionTwo) {
+		this.surveyquestionTwo = surveyquestionTwo;
 	}
 
 	public double getInterest() {
@@ -1252,6 +1304,32 @@ public class InsuredPersonInfoDTO {
 	public void setSumInsuredType(SumInsuredType sumInsuredType) {
 		this.sumInsuredType = sumInsuredType;
 	}
+
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public double getBmi() {
+		return bmi;
+	}
+
+	public void setBmi(double bmi) {
+		this.bmi = bmi;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+	
+	
 	
 	
 }

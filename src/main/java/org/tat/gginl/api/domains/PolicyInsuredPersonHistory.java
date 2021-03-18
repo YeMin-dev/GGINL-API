@@ -79,6 +79,9 @@ public class PolicyInsuredPersonHistory {
 	@Enumerated(value = EnumType.STRING)
 	private IdType parentIdType;
 	private Date parentDOB;
+	private int weight;
+	private int height;
+	private int bmi;
 
 	@Temporal(TemporalType.DATE)
 	private Date dateOfBirth;
@@ -587,6 +590,30 @@ public class PolicyInsuredPersonHistory {
 	public void setProduct(Product product) {
 		this.product = product;
 	}
+	
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public int getBmi() {
+		return bmi;
+	}
+
+	public void setBmi(int bmi) {
+		this.bmi = bmi;
+	}
 
 	public LifePolicyHistory getLifePolicy() {
 		return lifePolicy;
@@ -891,6 +918,9 @@ public class PolicyInsuredPersonHistory {
 		result = prime * result + (int) (temp ^ (temp >>> 32));
 		result = prime * result + ((typesOfSport == null) ? 0 : typesOfSport.hashCode());
 		result = prime * result + version;
+		result = prime * result + weight;
+		result = prime * result + height;
+		result = prime * result + bmi;
 		return result;
 	}
 
@@ -1041,6 +1071,12 @@ public class PolicyInsuredPersonHistory {
 		} else if (!typesOfSport.equals(other.typesOfSport))
 			return false;
 		if (version != other.version)
+			return false;
+		if (weight != other.weight)
+			return false;
+		if (height != other.height)
+			return false;
+		if (bmi != other.bmi)
 			return false;
 		return true;
 	}

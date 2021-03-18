@@ -1,4 +1,4 @@
-package org.tat.gginl.api.controller.sampleLifeController;
+package org.tat.gginl.api.controller.simpleLifeController;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -12,8 +12,9 @@ import org.springframework.web.bind.annotation.RestController;
 import org.tat.gginl.api.domains.LifePolicy;
 import org.tat.gginl.api.domains.services.LifeProposalService;
 import org.tat.gginl.api.dto.ResponseDTO;
-import org.tat.gginl.api.dto.sampleLifeDTO.SampleLifeDTO;
-import org.tat.gginl.api.dto.sampleLifeDTO.SampleLifeReponseDTO;
+import org.tat.gginl.api.dto.simpleLifeDTO.SimpleLifeDTO;
+import org.tat.gginl.api.dto.simpleLifeDTO.SimpleLifeReponseDTO;
+
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -21,9 +22,9 @@ import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 
 @RestController
-@RequestMapping("/sampleLife")
-@Api(tags = "Sample Life Proposal")
-public class SampleLifeController {
+@RequestMapping("/simpleLife")
+@Api(tags = "Simple Life Proposal")
+public class SimpleLifeController {
 
   @Autowired
   private LifeProposalService lifeProposalService;
@@ -37,18 +38,18 @@ public class SampleLifeController {
       @ApiResponse(code = 500, message = "Expired or invalid JWT token")})
   @ApiOperation(value = "${SampleLifeController.submitProposal}")
   public ResponseDTO<Object> submitproposal(
-      @ApiParam("Submit SampleLife Proposal") @Valid @RequestBody SampleLifeDTO sampleLifeProposalDTO) {
+      @ApiParam("Submit SampleLife Proposal") @Valid @RequestBody SimpleLifeDTO sampleLifeProposalDTO) {
     List<LifePolicy> policyList = new ArrayList<>();
-    SampleLifeDTO a = mapper.map(sampleLifeProposalDTO, SampleLifeDTO.class);
+    SimpleLifeDTO simpleLifeDTO = mapper.map(sampleLifeProposalDTO, SimpleLifeDTO.class);
 
     // create sample Life proposal
-    policyList = lifeProposalService.createSampleLifePolicy(a);
+    policyList = lifeProposalService.createSimpleLifePolicy(simpleLifeDTO);
 
     // create response object
-    List<SampleLifeReponseDTO> responseList = new ArrayList<>();
+    List<SimpleLifeReponseDTO> responseList = new ArrayList<>();
 
     policyList.forEach(policy -> {
-      SampleLifeReponseDTO dto = SampleLifeReponseDTO.builder()
+      SimpleLifeReponseDTO dto = SimpleLifeReponseDTO.builder()
           .bpmsInsuredPersonId(policy.getPolicyInsuredPersonList().get(0).getBpmsInsuredPersonId())
           .proposalNo(policy.getLifeProposal().getProposalNo()).policyNo(policy.getPolicyNo())
           .customerId(policy.getPolicyInsuredPersonList().get(0).isNewCustomer()

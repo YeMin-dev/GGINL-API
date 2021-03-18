@@ -25,6 +25,10 @@ public class CustomerService {
 	public List<Object> findAllColumnName() {
 		return customerRepository.findAllColumnName();
 	}
+	
+	public Customer findCustomerByIdNoAndIdType(String idNo, String idType) {
+		return customerRepository.findCustomerByIdNoAndIdType(idNo, idType);
+	}
 
 	@Transactional
 	public Optional<Customer> findById(String id) throws DAOException {

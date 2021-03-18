@@ -27,6 +27,7 @@ public class TableName {
 	public static final String WALL = "WALL";
 	public static final String FLOOR = "FLOOR";
 	public static final String OCCUPATION = "OCCUPATION";
+	public static final String RISKYOCCUPATION = "RISKYOCCUPATION";
 	public static final String COUNTRY = "COUNTRY";
 	public static final String HOSPITAL = "HOSPITAL";
 	public static final String MOTORTYPE = "MOTORTYPE";

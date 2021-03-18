@@ -46,7 +46,10 @@ import org.tat.gginl.api.common.emumdata.ClassificationOfHealth;
 import org.tat.gginl.api.common.emumdata.EndorsementStatus;
 import org.tat.gginl.api.common.emumdata.Gender;
 import org.tat.gginl.api.common.emumdata.IdType;
+import org.tat.gginl.api.common.emumdata.PeriodType;
 import org.tat.gginl.api.common.emumdata.SumInsuredType;
+import org.tat.gginl.api.common.emumdata.SurveyAnswerOne;
+import org.tat.gginl.api.common.emumdata.SurveyAnswerTwo;
 
 @Entity
 @Table(name = TableName.PROPOSALINSUREDPERSON)
@@ -61,8 +64,14 @@ public class ProposalInsuredPerson implements Serializable {
 	private int paymentTerm;
 	@Column(name = "PERIODOFMONTH")
 	private int periodMonth;
+	@Column(name = "PERIODOFYEAR")
+	private int periodYear;
+	@Column(name = "PERIODOFWEEK")
+	private int periodWeek;
 	@Column(name = "AGE")
 	private int age;
+	@Enumerated(value = EnumType.STRING)
+	private PeriodType periodType;
 	private double proposedSumInsured;
 	private double proposedPremium;
 	private double approvedSumInsured;
@@ -88,6 +97,11 @@ public class ProposalInsuredPerson implements Serializable {
 	@Enumerated(value = EnumType.STRING)
 	private IdType parentIdType;
 	private Date parentDOB;
+	private int weight;
+	private int height;
+	private double bmi;
+	private SurveyAnswerOne surveyquestionOne;
+	private SurveyAnswerTwo surveyquestionTwo;
 
 	@Transient
 	private String bpmsInsuredPersonId;
@@ -240,6 +254,11 @@ public class ProposalInsuredPerson implements Serializable {
 		this.school = dto.getSchool();
 		this.gradeInfo = dto.getGradeInfo();
 		this.sumInsuredType = dto.getSumInsuredType();
+		this.weight = dto.getWeight();
+		this.height = dto.getHeight();
+		this.bmi = dto.getBmi();
+		this.surveyquestionOne = dto.getSurveyquestionOne();
+		this.surveyquestionTwo = dto.getSurveyquestionTwo();
 		// override
 		this.customer = dto.getCustomer();
 		for (InsuredPersonAttachment attach : dto.getPerAttachmentList()) {
@@ -306,6 +325,12 @@ public class ProposalInsuredPerson implements Serializable {
 		this.version = insuredPersonInfoDTO.getVersion();
 		this.approved = insuredPersonInfoDTO.isApprove();
 		this.sumInsuredType = insuredPersonInfoDTO.getSumInsuredType();
+		this.periodType = insuredPersonInfoDTO.getPeriodType();
+		this.weight = insuredPersonInfoDTO.getWeight();
+		this.height = insuredPersonInfoDTO.getHeight();
+		this.bmi = insuredPersonInfoDTO.getBmi();
+		this.surveyquestionOne = insuredPersonInfoDTO.getSurveyquestionOne();
+		this.surveyquestionTwo = insuredPersonInfoDTO.getSurveyquestionTwo();
 	}
 
 	public ProposalInsuredPerson(Date dateOfBirth, double proposedSumInsured, Product product, LifeProposal lifeproposal, int periodMonth, Date startDate, Date endDate,
@@ -364,6 +389,8 @@ public class ProposalInsuredPerson implements Serializable {
 		this.school = policyInsuredPerson.getSchool();
 		this.gradeInfo = policyInsuredPerson.getGradeInfo();
 		this.sumInsuredType = policyInsuredPerson.getSumInsuredType();
+		this.weight = policyInsuredPerson.getWeight();
+		this.height = policyInsuredPerson.getHeight();
 		for (PolicyInsuredPersonKeyFactorValue lifeKFValue : policyInsuredPerson.getPolicyInsuredPersonkeyFactorValueList()) {
 			addLifeKeyFactorValue(new InsuredPersonKeyFactorValue(lifeKFValue));
 		}
@@ -419,6 +446,22 @@ public class ProposalInsuredPerson implements Serializable {
 
 	public void setDateOfBirth(Date dateOfBirth) {
 		this.dateOfBirth = dateOfBirth;
+	}
+	
+	public int getPeriodYear() {
+		return periodYear;
+	}
+
+	public void setPeriodYear(int periodYear) {
+		this.periodYear = periodYear;
+	}
+
+	public int getPeriodWeek() {
+		return periodWeek;
+	}
+
+	public void setPeriodWeek(int periodWeek) {
+		this.periodWeek = periodWeek;
 	}
 
 	public double getProposedSumInsured() {
@@ -509,6 +552,22 @@ public class ProposalInsuredPerson implements Serializable {
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+	
+	public SurveyAnswerOne getSurveyquestionOne() {
+		return surveyquestionOne;
+	}
+
+	public void setSurveyquestionOne(SurveyAnswerOne surveyquestionOne) {
+		this.surveyquestionOne = surveyquestionOne;
+	}
+
+	public SurveyAnswerTwo getSurveyquestionTwo() {
+		return surveyquestionTwo;
+	}
+
+	public void setSurveyquestionTwo(SurveyAnswerTwo surveyquestionTwo) {
+		this.surveyquestionTwo = surveyquestionTwo;
+	}
 
 	public boolean isApproved() {
 		return approved;
@@ -562,6 +621,14 @@ public class ProposalInsuredPerson implements Serializable {
 	public void setBirthCertificateAttachment(List<Attachment> birthCertificateAttachment) {
 		this.birthCertificateAttachment = birthCertificateAttachment;
 	}
+	
+	public PeriodType getPeriodType() {
+		return periodType;
+	}
+
+	public void setPeriodType(PeriodType periodType) {
+		this.periodType = periodType;
+	}
 
 	public List<InsuranceHistoryRecord> getInsuranceHistoryRecord() {
 		if (insuranceHistoryRecord == null) {
@@ -580,6 +647,30 @@ public class ProposalInsuredPerson implements Serializable {
 
 	public void setProduct(Product product) {
 		this.product = product;
+	}
+	
+	public int getWeight() {
+		return weight;
+	}
+
+	public void setWeight(int weight) {
+		this.weight = weight;
+	}
+
+	public int getHeight() {
+		return height;
+	}
+
+	public void setHeight(int height) {
+		this.height = height;
+	}
+
+	public double getBmi() {
+		return bmi;
+	}
+
+	public void setBmi(double bmi) {
+		this.bmi = bmi;
 	}
 
 	public RelationShip getRelationship() {
@@ -1080,6 +1171,8 @@ public class ProposalInsuredPerson implements Serializable {
 		result = prime * result + (needMedicalCheckup ? 1231 : 1237);
 		result = prime * result + paymentTerm;
 		result = prime * result + periodMonth;
+		result = prime * result + periodWeek;
+		result = prime * result + periodYear;
 		result = prime * result + ((prefix == null) ? 0 : prefix.hashCode());
 		temp = Double.doubleToLongBits(proposedPremium);
 		result = prime * result + (int) (temp ^ (temp >>> 32));
