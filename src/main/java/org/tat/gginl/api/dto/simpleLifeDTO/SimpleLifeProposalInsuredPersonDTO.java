@@ -23,7 +23,7 @@ public class SimpleLifeProposalInsuredPersonDTO {
 
   @ApiModelProperty(position = 1, example = "36221e42-a0000040-133dc830-59dccb1a", required = true)
   @NotBlank(message = "BPMS InsuredPersonId is mandatory")
-  private String bpmsInsuredPersonId;
+  private String gginlInsuredPersonId;
 
   @ApiModelProperty(position = 2, example = "100000", required = true)
   @NotNull(message = "proposedSumInsured is mandatory")

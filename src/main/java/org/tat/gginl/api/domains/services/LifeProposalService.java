@@ -49,6 +49,7 @@ import org.tat.gginl.api.domains.Bank;
 import org.tat.gginl.api.domains.Branch;
 import org.tat.gginl.api.domains.Country;
 import org.tat.gginl.api.domains.Customer;
+import org.tat.gginl.api.domains.GginlApp;
 import org.tat.gginl.api.domains.GradeInfo;
 import org.tat.gginl.api.domains.GroupFarmerProposal;
 import org.tat.gginl.api.domains.InsuredPersonBeneficiaries;
@@ -70,6 +71,7 @@ import org.tat.gginl.api.domains.Township;
 import org.tat.gginl.api.domains.TownshipCode;
 import org.tat.gginl.api.domains.repository.AgentCommissionRepository;
 import org.tat.gginl.api.domains.repository.CustomerRepository;
+import org.tat.gginl.api.domains.repository.GginlAppRepository;
 import org.tat.gginl.api.domains.repository.GroupFarmerRepository;
 import org.tat.gginl.api.domains.repository.LifePolicyRepository;
 import org.tat.gginl.api.domains.repository.LifeProposalRepository;
@@ -150,6 +152,9 @@ public class LifeProposalService {
 
 	@Autowired
 	private TLFRepository tlfRepository;
+	
+	@Autowired
+	private GginlAppRepository gginlAppRepo;
 
 	@Autowired
 	private AgentCommissionRepository agentCommissionRepo;
@@ -1860,6 +1865,7 @@ public class LifeProposalService {
 			Optional<Agent> agentOptional = agentService.findById(simpleLifeDTO.getAgentID());
 			Optional<SaleMan> saleManOptional = saleManService.findById(simpleLifeDTO.getSaleManId());
 			Optional<SalePoint> salePointOptional = salePointService.findById(simpleLifeDTO.getSalePointId());
+			Optional<GginlApp> gginlAppOptional = gginlAppRepo.findById(simpleLifeDTO.getGginlAppID());
 
 			simpleLifeDTO.getProposalInsuredPersonList().forEach(insuredPerson -> {
 
@@ -1923,8 +1929,20 @@ public class LifeProposalService {
 				CommonCreateAndUpateMarks recorder = new CommonCreateAndUpateMarks();
 				recorder.setCreatedDate(new Date());
 				lifeProposal.setRecorder(recorder);
-				lifeProposal.setBpmsProposalNo(simpleLifeDTO.getBpmsProposalNo());
-				lifeProposal.setBpmsReceiptNo(simpleLifeDTO.getBpmsReceiptNo());
+				
+				lifeProposal.setGginlProposalId(simpleLifeDTO.getGginlProposalNo());
+				lifeProposal.setGginlReceiptNo(simpleLifeDTO.getGginlReceiptNo());
+				
+				if (gginlAppOptional.isPresent()) {
+					lifeProposal.setAppId(gginlAppOptional.get());
+				} else {
+					GginlApp gginlApp = new GginlApp();
+					gginlApp.setId(simpleLifeDTO.getGginlAppID());
+					gginlApp.setAppName(simpleLifeDTO.getGginlAppName());
+					gginlAppRepo.save(gginlApp);
+					lifeProposal.setAppId(gginlApp);
+				}
+				
 				String proposalNo = customIdRepo.getNextId("SIMPLE_LIFE_PROPOSAL_NO", null);
 				lifeProposal.setProposalNo(proposalNo);
 				lifeProposal.setPrefix("ISLIF001");
@@ -1956,7 +1974,8 @@ public class LifeProposalService {
 
 			insuredPerson.setInitialId(dto.getInitialId());
 			insuredPerson.setProduct(productOptional.get());
-			insuredPerson.setBpmsInsuredPersonId(dto.getBpmsInsuredPersonId());
+			// TODO might have to fix for bpms, not sure new col has to add or not
+			insuredPerson.setBpmsInsuredPersonId(dto.getGginlInsuredPersonId());
 			insuredPerson.setProposedSumInsured(dto.getProposedSumInsured());
 			insuredPerson.setProposedPremium(dto.getProposedPremium());
 			insuredPerson.setApprovedSumInsured(dto.getApprovedSumInsured());

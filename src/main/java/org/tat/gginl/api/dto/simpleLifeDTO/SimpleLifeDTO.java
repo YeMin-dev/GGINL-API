@@ -63,15 +63,23 @@ public class SimpleLifeDTO {
   @ApiModelProperty(position = 12, example = "CH34345345", required = true)
   private String chequeNo;
 
-  @ApiModelProperty(position = 13, example = "1234", required = true)
-  @NotBlank(message = "userId is mandatory")
-  private String userId;
+//  @ApiModelProperty(position = 13, example = "1234", required = true)
+//  @NotBlank(message = "userId is mandatory")
+//  private String userId;
   
-  @ApiModelProperty(position = 14, example = "BPMS/P/0001", required = true)
-  private String bpmsProposalNo;
+  @ApiModelProperty(position = 13, example = "BPMS/P/0001", required = true)
+  private String gginlProposalNo;
 
-  @ApiModelProperty(position = 15, example = "BPMS/CSH/0001", required = true)
-  private String bpmsReceiptNo;
+  @ApiModelProperty(position = 14, example = "BPMS/CSH/0001", required = true)
+  private String gginlReceiptNo;
+  
+  @ApiModelProperty(position = 15, example = "0001", required = true)
+  @NotBlank(message = "gginlAppID is mandatory")
+  private String gginlAppID;
+  
+  @ApiModelProperty(position = 16, example = "name", required = true)
+  @NotBlank(message = "gginlAppID is mandatory")
+  private String gginlAppName;
   
   @ApiModelProperty(position = 16, example = "2019-12-16", required = true)
   @NotNull(message = "Payment Confirm Date is mandatory")
