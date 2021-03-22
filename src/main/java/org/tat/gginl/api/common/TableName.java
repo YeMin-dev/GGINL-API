@@ -713,5 +713,7 @@ public class TableName {
 
 	/* School */
 	public static final String SCHOOL = "SCHOOL";
+	
+	public static final String GGINLAPP = "GGINLAPP";
 
 }
