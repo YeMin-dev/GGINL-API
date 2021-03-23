@@ -63,16 +63,18 @@ public enum PolicyReferenceType {
 	GROUP_MICRO_HEALTH_BILL_COLLECTION("Group Micro Health Bill Collection"),
 
 	STUDENT_LIFE_POLICY("Student Life Policy"),
-	
+
 	PUBLIC_TERM_LIFE_POLICY("Public Term Life Policy"),
 
 	STUDENT_LIFE_POLICY_BILL_COLLECTION("Student Life Policy Bill Collection"),
-	
+
 	SINGLE_PREMIUM_CREDIT_LIFE_POLICY("Single Premium Credit Life Policy"),
-	
+
 	SHORT_TERM_SINGLE_PREMIUM_CREDIT_LIFE_POLICY("Short Term Single Premium Credit Life Policy"),
-	
-	SINGLE_PREMIUM_ENDOWMENT_LIFE_POLICY("Single Premium Endowment Life Policy");
+
+	SINGLE_PREMIUM_ENDOWMENT_LIFE_POLICY("Single Premium Endowment Life Policy"),
+
+	SIMPLE_LIFE_POLICY("Simple Life");
 
 	private String label;
 
