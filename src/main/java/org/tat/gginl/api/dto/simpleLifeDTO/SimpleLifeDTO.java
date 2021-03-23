@@ -33,7 +33,7 @@ public class SimpleLifeDTO {
   @ApiModelProperty(position = 3)
   private CustomerDto customer;
   
-  @ApiModelProperty(position = 4, example = "ISSYS002001000000000103062019")
+  @ApiModelProperty(position = 4, example = "ISSYS033000009784102042019")
   private String organizationId;
 
   @ApiModelProperty(position = 5, example = "ISSYS0090001000000000429032013", required = true)

@@ -148,10 +148,7 @@ public class LifeProposal implements Serializable, IDataModel, IProposal {
 
 	private String gginlProposalId;
 	private String gginlReceiptNo;
-
-	@OneToOne
-	@JoinColumn(name = "APPID", referencedColumnName = "ID")
-	private GginlApp appId;
+	private String appId;
 
 	@Version
 	private int version;
@@ -952,11 +949,11 @@ public class LifeProposal implements Serializable, IDataModel, IProposal {
 		this.gginlReceiptNo = gginlReceiptNo;
 	}
 
-	public GginlApp getAppId() {
+	public String getAppId() {
 		return appId;
 	}
 
-	public void setAppId(GginlApp appId) {
+	public void setAppId(String appId) {
 		this.appId = appId;
 	}
 	
