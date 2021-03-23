@@ -691,6 +691,8 @@ public class LifeProposalService {
 						policyReferenceType = PolicyReferenceType.SHORT_TERM_SINGLE_PREMIUM_CREDIT_LIFE_POLICY;
 					} else if (product.getId().equals(singlePremiumEndowmentLifeProductId)) {
 						policyReferenceType = PolicyReferenceType.SINGLE_PREMIUM_ENDOWMENT_LIFE_POLICY;
+					} else if (product.getId().equals(simpleLifeProductId)) {
+						policyReferenceType = PolicyReferenceType.SIMPLE_LIFE_POLICY;
 					}
 
 					AgentCommission ac = new AgentCommission(lifePolicy.getId(), policyReferenceType, lifePolicy.getAgent(), firstAgentCommission, payment.getConfirmDate());
@@ -1928,7 +1930,7 @@ public class LifeProposalService {
 
 				List<Object> gginlAppObjList = new ArrayList<>();
 				gginlAppObjList = lifeProposalRepo.searchByIdInGginlApp(simpleLifeDTO.getGginlAppID());
-				
+
 				if (gginlAppObjList.isEmpty()) {
 					lifeProposalRepo.saveToGginlApp(simpleLifeDTO.getGginlAppID(), simpleLifeDTO.getGginlAppName(), new Date());
 					lifeProposal.setAppId(simpleLifeDTO.getGginlAppID());
