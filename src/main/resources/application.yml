@@ -1,8 +1,8 @@
 spring:
   datasource:
-    url: jdbc:sqlserver://localhost;databaseName=ggliwebversion
+    url: jdbc:sqlserver://localhost;databaseName=payableggip
     username: sa
-    password: sasa
+    password: mssql2017
     driver-class-name: com.microsoft.sqlserver.jdbc.SQLServerDriver
   jackson:
     date-format: dd.MM.yyyy
@@ -27,7 +27,7 @@ singlePremiumCreditLifeProductId: ISPRD003000009610317062020
 shortTermSinglePremiumCreditLifeProductId: ISPRD003000009610322062020
 singlePremiumEndowmentLifeProductId: ISPRD003000009612311032020
 healthProductId: ISPRD003001000009582304022019
-simpleLifeProductId: ISPRD003000009609324022020
+simpleLifeProductId: ISPRD003000009609328102020
 fileDir: D
 
 

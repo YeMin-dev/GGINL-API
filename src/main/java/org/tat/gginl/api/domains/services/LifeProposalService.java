@@ -38,6 +38,7 @@ import org.tat.gginl.api.common.emumdata.IdConditionType;
 import org.tat.gginl.api.common.emumdata.IdType;
 import org.tat.gginl.api.common.emumdata.MaritalStatus;
 import org.tat.gginl.api.common.emumdata.PaymentChannel;
+import org.tat.gginl.api.common.emumdata.PeriodType;
 import org.tat.gginl.api.common.emumdata.PolicyReferenceType;
 import org.tat.gginl.api.common.emumdata.PolicyStatus;
 import org.tat.gginl.api.common.emumdata.ProposalType;
@@ -64,7 +65,6 @@ import org.tat.gginl.api.domains.PolicyInsuredPersonKeyFactorValue;
 import org.tat.gginl.api.domains.Product;
 import org.tat.gginl.api.domains.ProposalInsuredPerson;
 import org.tat.gginl.api.domains.RelationShip;
-import org.tat.gginl.api.domains.RiskyOccupation;
 import org.tat.gginl.api.domains.SaleMan;
 import org.tat.gginl.api.domains.SalePoint;
 import org.tat.gginl.api.domains.School;
@@ -2091,7 +2091,7 @@ public class LifeProposalService {
 
 			insuredPerson.getProduct().getKeyFactorList().forEach(keyfactor -> {
 				insuredPerson.getKeyFactorValueList().add(
-						createKeyFactorValue(keyfactor, insuredPerson));
+						createKeyFactorValue(keyfactor, insuredPerson, dto));
 			});
 
 			dto.getInsuredPersonBeneficiariesList().forEach(beneficiary -> {
@@ -2104,7 +2104,7 @@ public class LifeProposalService {
 		}
 	}
 
-	private InsuredPersonKeyFactorValue createKeyFactorValue(KeyFactor keyfactor, ProposalInsuredPerson insuredPerson) {
+	private InsuredPersonKeyFactorValue createKeyFactorValue(KeyFactor keyfactor, ProposalInsuredPerson insuredPerson, SimpleLifeProposalInsuredPersonDTO dto) {
 
 		InsuredPersonKeyFactorValue insuredPersonKeyFactorValue = new InsuredPersonKeyFactorValue();
 		insuredPersonKeyFactorValue.setKeyFactor(keyfactor);
@@ -2114,9 +2114,31 @@ public class LifeProposalService {
 
 		if (keyfactor.getValue().equals("SUM INSURED")) {
 			insuredPersonKeyFactorValue.setValue(insuredPerson.getApprovedSumInsured() + "");
-		} else if (keyfactor.getValue().equals("AGE")) {
-			insuredPersonKeyFactorValue.setValue(insuredPerson.getAge() + "");
-		} 
+		} else if (keyfactor.getValue().equals("MEDICAL_AGE")) {
+			insuredPersonKeyFactorValue.setValue(insuredPerson.getAgeForNextYear() + "");
+		} else if (keyfactor.getValue().equals("TERM")) {
+			if (null == insuredPerson.getPeriodType() || insuredPerson.getPeriodType().equals(PeriodType.YEAR)) {
+				insuredPersonKeyFactorValue.setValue(dto.getPeriodOfInsurance() + "");
+			} else if (insuredPerson.getPeriodType().equals(PeriodType.MONTH) || insuredPerson.getPeriodType().equals(PeriodType.WEEK)) {
+				insuredPersonKeyFactorValue.setValue(0 + "");
+			} else {
+				insuredPersonKeyFactorValue.setValue(dto.getPeriodOfInsurance() + "");
+			}
+		} else if (keyfactor.getValue().equals("MONTH")) {
+			if (null == insuredPerson.getPeriodType() || insuredPerson.getPeriodType().equals(PeriodType.MONTH)) {
+				insuredPersonKeyFactorValue.setValue(dto.getPeriodOfInsurance() + "");
+			} else if (insuredPerson.getPeriodType().equals(PeriodType.YEAR) || insuredPerson.getPeriodType().equals(PeriodType.WEEK)) {
+				insuredPersonKeyFactorValue.setValue(0 + "");
+			}
+		} else if (keyfactor.getValue().equals("WEEK")) {
+			if (null == insuredPerson.getPeriodType() || insuredPerson.getPeriodType().equals(PeriodType.WEEK)) {
+				insuredPersonKeyFactorValue.setValue(dto.getPeriodOfInsurance() + "");
+			} else if (insuredPerson.getPeriodType().equals(PeriodType.MONTH) || insuredPerson.getPeriodType().equals(PeriodType.YEAR)) {
+				insuredPersonKeyFactorValue.setValue(0 + "");
+			}
+		} else if (keyfactor.getValue().equals("Cover Option")) {
+			insuredPersonKeyFactorValue.setValue(dto.getCoverOptions());
+		}
 
 		return insuredPersonKeyFactorValue;
 	}
